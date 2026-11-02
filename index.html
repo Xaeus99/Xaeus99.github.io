@@ -37,6 +37,15 @@ const LINKS = [
   { label: "itch.io (coming soon)", url: "https://orrin.sites.tab.bot", note: "ORRIN on itch.io", icon: "itch" },
   { label: "Watch the trailer", url: "assets/orrin_trailer.mp4", note: "25 seconds of the real app", icon: "play", action: "trailer" },
   { label: "Join the Discord", url: "https://discord.gg/x57tQ25QHx", note: "Updates, help and bug reports", icon: "discord" },
+  { label: "Instagram", url: "https://www.instagram.com/getorrin.app/", note: "@getorrin.app", icon: "instagram" },
+  { label: "TikTok", url: "https://www.tiktok.com/@getorrin.app", note: "@getorrin.app", icon: "tiktok" },
+];
+/* LATEST VIDEOS: newest first. { platform, title, url, icon } */
+const VIDEOS = [
+  { platform: "TikTok", title: "How to set up ORRIN in 3 steps", url: "https://www.tiktok.com/@getorrin.app/video/7703401066775301390", icon: "tiktok" },
+  { platform: "TikTok", title: "Meet ORRIN (trailer)", url: "https://www.tiktok.com/@getorrin.app/video/7703400318565879054", icon: "tiktok" },
+  { platform: "Instagram", title: "How to set up ORRIN in 3 steps", url: "https://www.instagram.com/getorrin.app/reel/DfOPs-CzUKI/", icon: "instagram" },
+  { platform: "Instagram", title: "Meet ORRIN (trailer)", url: "https://www.instagram.com/getorrin.app/reel/DfOO6G_z5F_/", icon: "instagram" },
 ];
 </script>
 <style>
@@ -100,6 +109,12 @@ const LINKS = [
     box-shadow:0 18px 50px -24px rgba(98,100,220,.55)}
   .trailer video{display:block;width:100%;aspect-ratio:16/9;background:#000}
   .cap{font-size:13px;color:var(--muted);margin:8px 0 0}
+  .vids{width:100%;margin-top:28px;text-align:left}
+  .vids h2{font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;font-weight:700}
+  .vid{display:flex;align-items:center;gap:12px;padding:11px 14px;margin:0 0 8px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--text);text-decoration:none}
+  .vid:hover{background:var(--card2)}
+  .vid svg{width:20px;height:20px;flex:none;color:var(--orange2)}
+  .vid .p{font-size:12px;color:var(--muted);display:block}
   footer{margin-top:30px;font-size:13px;color:#6e7399}
   footer a{color:#8f94bd}
 </style>
@@ -126,6 +141,8 @@ const LINKS = [
   </section>
   <p class="cap">Trailer · captured from the real app</p>
 
+  <section class="vids" aria-label="Latest videos"><h2>Latest videos</h2><div id="vidlist"></div></section>
+
   <footer>© 2026 ORRIN</footer>
 </main>
 <script>
@@ -150,6 +167,9 @@ nav.innerHTML = LINKS.map(l => {
     <span class="txt"><span class="lbl">${esc(l.label)}</span>${l.note ? `<span class="note">${esc(l.note)}</span>` : ''}</span>
     <span class="arr" aria-hidden="true">›</span></a>`;
 }).join('');
+document.getElementById('vidlist').innerHTML = VIDEOS.map(v =>
+  `<a class="vid" href="${esc(v.url)}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[v.icon] || ICONS.play}</svg><span><span class="p">${esc(v.platform)}</span>${esc(v.title)}</span></a>`
+).join('');
 nav.addEventListener('click', e => {
   const a = e.target.closest('a[data-action="trailer"]');
   if (!a) return;
